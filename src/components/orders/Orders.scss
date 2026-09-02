@@ -1,0 +1,162 @@
+@use '../../styles/index' as *;
+
+.cart {
+    display: grid;
+    grid-template-columns: repeat(24, 32px);
+    gap: 16px;
+
+    &__items {
+        grid-column: span 16;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+
+    .Orders {
+        width: 100%;
+        align-items: center;
+        display: flex;
+        background-color: #161827;
+        padding: 0 24px;
+        gap: 24px;
+
+        &--name {
+            display: block;
+            width: 336px;
+        }
+
+        &--link {
+            padding: 56px 0;
+            cursor: pointer;
+
+            &--item {
+                display: block;
+                height: 16px;
+                width: 16px;
+                object-fit: contain;
+                justify-content: center;
+            }
+        }
+
+        &--img {
+            display: block;
+            height: 80px;
+            width: 80px;
+            padding: 7px;
+            object-fit: contain;
+
+        }
+
+        &__box {
+            display: flex;
+            width: 96px;
+            height: 32px;
+            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+            text-align: center;
+
+
+            &--item {
+                width: 32px;
+                height: 32px;
+                align-content: center;
+
+            }
+
+            &--button {
+                border: 1px gray solid;
+                display: block;
+                width: 32px;
+                height: 32px;
+                user-select: none;
+                align-content: center;
+                background-color: #3B3E4A;
+                color: #F1F2F9;
+                cursor: pointer;
+            }
+        }
+
+        &--price {
+            display: block;
+            width: 80px;
+            text-align: end;
+        }
+
+    }
+
+    .isNotActive {
+        background-color: #161827;
+        color: #3B3E4A;
+        cursor: default;
+    }
+
+    @include phone {
+        .result {
+            border: 1px solid #3B3E4A;
+            text-align: center;
+            grid-column: 1 /-1;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 24px;
+
+            &__titel {
+                gap: 0;
+
+                &--item {
+                    margin-bottom: 0;
+                    font-weight: 800;
+                    font-size: 32px;
+                    line-height: 41px;
+                    letter-spacing: -1%;
+
+                }
+
+                &__text {
+                    color: #75767F;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 21px;
+                    letter-spacing: 0%;
+                    text-align: center;
+
+                }
+            }
+
+            &__line {
+                width: 321px;
+                height: 1px;
+                background-color: #3B3E4A;
+            }
+
+            &__button {
+                height: 48px;
+                width: 320px;
+                background-color: #905BFF;
+                color: white;
+                border: none;
+                padding: 0;
+                margin: 0;
+                font: inherit;
+                cursor: pointer;
+                outline: none;
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 21px;
+                letter-spacing: 0%;
+                text-align: center;
+
+            }
+        }
+
+    }
+
+    @include desktop {
+        .result{
+            grid-column: span 8 ;
+        }
+    }
+}

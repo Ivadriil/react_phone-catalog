@@ -1,0 +1,30 @@
+@use 'index' as *;
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $gap;
+    width: 100%;
+    height: fit-content;
+
+
+    @include tablet {
+        grid-template-columns: repeat($tablet-columns, 1fr);
+        width: 100%;
+    }
+
+    @include desktop {
+        grid-template-columns: repeat($desktop-columns, 1fr);
+        width: 1136px;
+    }
+}
+
+.section {
+    margin-bottom: 80px;
+    justify-items: center;
+}
+
+.margen-titel {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

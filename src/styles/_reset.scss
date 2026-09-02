@@ -1,0 +1,10 @@
+select option {
+    background-color: #fff;
+    color: #333;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+select option:disabled {
+    color: #999;
+}

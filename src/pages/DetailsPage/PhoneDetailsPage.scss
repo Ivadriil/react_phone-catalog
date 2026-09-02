@@ -1,0 +1,315 @@
+@use '../../styles/index.scss' as *;
+
+
+.wrapper {
+    @include phone {
+        width: 100%;
+        margin: 0 8px;
+    }
+
+    @include tablet {
+        margin: 0 24px;
+    }
+
+    @include desktop {
+        width: 1200px;
+        margin: 0 auto;
+        padding: 32px;
+    }
+}
+
+.breadcrumbs {
+    width: fit-content;
+    grid-column: 1 / -1;
+}
+
+.container {
+    margin-bottom: 80px;
+    justify-content: center;
+}
+
+.product-photo {
+    @include phone {
+        grid-column: 1 / -1;
+
+        &--item {
+            display: block;
+            width: 52px;
+            height: 49px;
+            object-fit: contain;
+        }
+    }
+
+    @include tablet {
+        grid-column: span 1;
+
+        &--item {
+            display: block;
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    @include desktop {
+        grid-column: span 2;
+
+        &--item {
+            display: block;
+            width: 80px;
+            height: 80px;
+        }
+    }
+
+
+
+}
+
+.product-photo-first {
+    @include phone {
+        grid-column: span 4;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 11px;
+
+        &--item {
+            width: 288px;
+            height: 288px;
+            object-fit: contain;
+        }
+    }
+
+    @include tablet {
+        grid-column: span 6;
+    }
+
+
+    @include desktop {
+        grid-column: span 10;
+
+        &--item {
+            width: 464px;
+            height: 464px;
+        }
+    }
+
+
+
+}
+
+.product {
+    @include phone {
+        grid-column: span 4;
+        height: fit-content;
+        flex-direction: column;
+        display: flex;
+        gap: 24px;
+
+        &__price {
+            display: flex;
+            height: 41px;
+            width: fit-content;
+            justify-content: space-between;
+            gap: 8px;
+
+
+
+
+            &--item {
+                margin: 0;
+                &:first-child {
+                    font-weight: 800;
+                    font-size: 32px;
+                    line-height: 41px;
+                    letter-spacing: -1%;
+
+                }
+
+                &:last-child {
+                    font-weight: 600;
+                    font-size: 22px;
+                    line-height: 100%;
+                    letter-spacing: 0%;
+                    text-decoration: line-through;
+                    align-content: center;
+                }
+
+            }
+        }
+
+        &__box {
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+
+            &__colors {
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+
+                &--item {
+                    width: 32px;
+                    height: 32px;
+                    cursor: pointer;
+                    border-radius: 50%;
+                }
+            }
+
+            &__gb {
+                display: flex;
+                gap: 8px;
+
+                &--item {
+                    width: 63px;
+                    height: 32px;
+                    cursor: pointer;
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #323542;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 21px;
+                    letter-spacing: 0%;
+                    text-align: center;
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        &--line {
+            border-top: 1px solid #323542;
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: column;
+            width: 208px;
+            height: 77px;
+            justify-content: space-around;
+            gap: 8px;
+
+            &--items {
+                display: flex;
+                width: 320px;
+                justify-content: space-between;
+                font-weight: 700;
+                font-size: 12px;
+                line-height: 100%;
+                letter-spacing: 0%;
+
+                :first-child {
+                    color: $bacround-color-gree-card;
+                }
+            }
+
+            &__button {
+                display: flex;
+                gap: 8px;
+                width: 320px;
+                height: 48px;
+
+                .item--button {
+                    width: 263px;
+                    height: 48px;
+                    background-color: #905BFF;
+
+                }
+
+                .item--heart {
+                    height: 48px;
+                    width: 48px;
+                    background-color: #323542;
+                }
+
+                &--item {
+                    align-items: center;
+                    justify-content: center;
+                    display: flex;
+                    cursor: pointer;
+
+                }
+            }
+        }
+    }
+
+    @include tablet {
+        grid-column: span 4;
+    }
+
+    @include desktop {
+        grid-column: span 7;
+    }
+
+
+
+
+
+
+}
+
+.ActiveColor {
+    outline: 1px solid white;
+    outline-offset: 2px;
+}
+
+.ActiveCapacity {
+    background-color: white;
+    color: black;
+}
+
+.info {
+    @include phone {
+        grid-column: span 4;
+    }
+
+    @include tablet {
+        grid-column: span 6;
+    }
+
+    @include desktop {
+        grid-column: span 12;
+
+    }
+}
+
+.tech {
+    @include phone {
+        grid-column: span 4;
+
+        &__info {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: fit-content;
+            justify-content: space-around;
+            gap: 8px;
+            margin-top: 24px;
+
+            &--items {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 21px;
+                letter-spacing: 0%;
+
+                :first-child {
+                    color: $bacround-color-gree-card;
+                }
+            }
+
+
+        }
+    }
+
+    @include tablet {
+        grid-column: span 6;
+    }
+
+    @include desktop {
+        grid-column: span 12;
+    }
+}
