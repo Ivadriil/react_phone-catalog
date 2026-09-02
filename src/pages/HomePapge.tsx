@@ -8,7 +8,7 @@ import { Title } from '../types/Titel';
 export const HomePapge: React.FC = () => {
   return (
     <>
-      <h1 className="title offCalss">Home page</h1>
+      <h2 className="title offCalss">Home page</h2>
       <div className="App">
         <div className="container margen-titel">
           <h1 className="offCalss">Product Catalog</h1>

@@ -14,24 +14,8 @@
     }
 
     &__image {
-        @include phone {
-            width: 187px;
-            height: 187px;
-        }
-
-        @include tablet {
-            min-width: 187px;
-            max-width: 387px;
-            height: 368px;
-        }
-
-        @include desktop {
-            width: 368px;
-        }
-
         background-color: #6D6474;
         display: block;
-
 
         &--items {
             display: block;
@@ -47,6 +31,25 @@
                 transform: scale(1.1);
             }
         }
+
+        @include phone {
+            width: 187px;
+            height: 187px;
+        }
+
+        @include tablet {
+            min-width: 187px;
+            max-width: 387px;
+            height: 368px;
+        }
+
+        @include desktop {
+            width: 368px;
+        }
+
+
+
+
     }
 
     &__text {
