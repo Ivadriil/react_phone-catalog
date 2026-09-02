@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import house from '../../images/Home.png';
 import products from '../../../public/api/products.json';
-import './Breadcrumbs .scss';
+import './Breadcrumbs.scss';
 import classNames from 'classnames';
 export const Breadcrumbs: React.FC = () => {
   const { productId } = useParams();
