@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import './Navigations.scss';
 import { useFavorites } from '../../context/FavoritesContext';
 import { useOrders } from '../../context/OrdersContext';
+import FavouritesHeartLike from '../../../src/images/Favourites(HeartLike).png';
+import ShoppingBag from '../../../src/images/Shopping-BagCart.png';
+import './Navigations.scss';
 export const Navigations: React.FC = () => {
   const { favorites } = useFavorites();
 
@@ -57,7 +59,7 @@ export const Navigations: React.FC = () => {
       <div className="shopping-bag">
         <NavLink to="/favorits" className="shopping-bag__link">
           <img
-            src="/src/images/Favourites(HeartLike).png"
+            src={FavouritesHeartLike}
             alt="(HeartLike)"
             className="shopping-bag__link--item"
           />
@@ -67,7 +69,7 @@ export const Navigations: React.FC = () => {
         </NavLink>
         <NavLink className="shopping-bag__link" to="/orders">
           <img
-            src="/src/images/Shopping-Bag(Cart).png"
+            src={ShoppingBag}
             alt="(Order)"
             className="shopping-bag__link--item"
           />

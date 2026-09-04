@@ -11,6 +11,7 @@ import { Product } from './types/Product';
 import { Loader } from './components/Loader/Loader';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { OrdersProvider } from './context/OrdersContext';
+import logo from '../src/images/Logo.png';
 
 export const App = () => {
   const [newProduct, setNewProduct] = useState<Product[]>([]);
@@ -46,7 +47,7 @@ export const App = () => {
               <a className="header__logo__link" href="/">
                 <img
                   className="header__logo__link--item"
-                  src="/src/images/Logo.png"
+                  src={logo}
                   alt="LogoSticker"
                 />
               </a>
@@ -82,7 +83,7 @@ export const App = () => {
               <a className="header__logo__link" href="/">
                 <img
                   className="header__logo__link--item"
-                  src="/src/images/Logo.png"
+                  src={logo}
                   alt="LogoSticker"
                 />
               </a>
