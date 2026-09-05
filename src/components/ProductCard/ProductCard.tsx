@@ -16,49 +16,34 @@ export const ProductCard: React.FC<Props> = ({ product, titel }) => {
 
   const { orders, addOrder, removeOrder } = useOrders();
 
-  const isFavorite = favorites.some(item => item.id === product.id);
-  const isOrder = orders.some(item => item.id === product.id);
+  const isFavorite = favorites.includes(product.itemId);
+  const isOrder = orders.includes(product.itemId);
 
   function changeFavorite() {
     if (isFavorite) {
-      removeFavorite(product.id);
+      removeFavorite(product.itemId);
     } else {
-      addFavorite(product.id);
+      addFavorite(product.itemId);
     }
   }
 
   function changeOrders() {
     if (isOrder) {
-      removeOrder(product.id);
+      removeOrder(product.itemId);
     } else {
-      addOrder(product.id);
+      addOrder(product.itemId);
     }
   }
 
   return (
     <div className="card" key={product.id}>
-      {titel === Title.Space ? (
-        <Link to={product.itemId} className="card__link container__card-photo">
-          <img
-            className="card-photo"
-            src={product.image}
-            alt="NewModaliPhone"
-          />
-          <h3 className="card__link--items">{product.name}</h3>
-        </Link>
-      ) : (
-        <Link
-          to={`${product.category}/${product.itemId}`}
-          className="card__link container__card-photo"
-        >
-          <img
-            className="card-photo"
-            src={product.image}
-            alt="NewModaliPhone"
-          />
-          <h3 className="card__link--items">{product.name}</h3>
-        </Link>
-      )}
+      <Link
+        to={`/${product.category}/${product.itemId}`}
+        className="card__link container__card-photo"
+      >
+        <img className="card-photo" src={product.image} alt="NewModaliPhone" />
+        <h3 className="card__link--items">{product.name}</h3>
+      </Link>
 
       <div className="card__price">
         <span className="card__price--item ">${product.price}</span>
@@ -86,22 +71,25 @@ export const ProductCard: React.FC<Props> = ({ product, titel }) => {
       </div>
       <div className="card__info__button">
         {isOrder ? (
-          <span
+          <button
+            type="button"
             className="card__info__button--item item--Added"
             onClick={changeOrders}
           >
             Added
-          </span>
+          </button>
         ) : (
-          <span
+          <button
+            type="button"
             className="card__info__button--item item--button"
             onClick={changeOrders}
           >
             Add to cart
-          </span>
+          </button>
         )}
 
-        <span
+        <button
+          type="button"
           className="card__info__button--item item--BloodHeart"
           onClick={changeFavorite}
         >
@@ -110,7 +98,7 @@ export const ProductCard: React.FC<Props> = ({ product, titel }) => {
             src={isFavorite ? BloodHeart : heartImg}
             alt="Remove from favorites"
           />
-        </span>
+        </button>
       </div>
     </div>
   );

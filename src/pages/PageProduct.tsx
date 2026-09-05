@@ -10,11 +10,22 @@ import { getNumbers } from '../utils/utils';
 import classNames from 'classnames';
 import { WhatSorted } from '../types/WhatSorted';
 import { Breadcrumbs } from '../components/Breadcrumbs';
+import { useProducts } from '../context/ProductsContext';
 type Props = {
   titel: ProductTitle;
-  products: Product[];
 };
-export const PageProduct: React.FC<Props> = ({ titel, products }) => {
+export const PageProduct: React.FC<Props> = ({ titel }) => {
+  const { products: catalog } = useProducts();
+  const categoryByTitle: Record<ProductTitle, string> = {
+    [ProductTitle.phone]: 'phones',
+    [ProductTitle.tablet]: 'tablets',
+    [ProductTitle.accessories]: 'accessories',
+    [ProductTitle.favorits]: 'favorits',
+    [ProductTitle.orders]: 'orders',
+  };
+  const products = catalog.filter(
+    product => product.category === categoryByTitle[titel],
+  );
   const [perPage, setPerPage] = useState(Number('16'));
   const [perSort, setPerSort] = useState(WhatSorted.Newest);
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,7 +154,8 @@ export const PageProduct: React.FC<Props> = ({ titel, products }) => {
         <div className="container">
           <ul className="pagnation">
             <li className="page--item">
-              <a
+              <button
+                type="button"
                 data-cy="prevLink"
                 className={classNames('page--link arrow ', {
                   disebled: currentPage === 1,
@@ -152,7 +164,7 @@ export const PageProduct: React.FC<Props> = ({ titel, products }) => {
                 onClick={() => handlePageChange(currentPage - 1)}
               >
                 «
-              </a>
+              </button>
             </li>
             {listItems.map(count => (
               <li
@@ -161,17 +173,19 @@ export const PageProduct: React.FC<Props> = ({ titel, products }) => {
                   active: currentPage === count,
                 })}
               >
-                <a
+                <button
+                  type="button"
                   data-cy="pageLink"
                   className="page--link"
                   onClick={() => handlePageChange(count)}
                 >
                   {count}
-                </a>
+                </button>
               </li>
             ))}
             <li className="page--item">
-              <a
+              <button
+                type="button"
                 data-cy="prevLink"
                 className={classNames('page--link arrow', {
                   disebled: currentPage === pageCount,
@@ -180,7 +194,7 @@ export const PageProduct: React.FC<Props> = ({ titel, products }) => {
                 onClick={() => handlePageChange(currentPage + 1)}
               >
                 »
-              </a>
+              </button>
             </li>
           </ul>
         </div>

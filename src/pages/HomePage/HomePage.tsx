@@ -1,10 +1,10 @@
 import React from 'react';
-import '../App.scss';
-import { Slider } from '../components/swiper/swiper';
-import { NewModels } from '../components/NewModels/NewModels';
-import { ShopByCategory } from '../components/ShopByCategory/ShopByCategory';
-import '.././styles/containers.scss';
-import { Title } from '../types/Titel';
+import { Slider } from '../../components/swiper/swiper';
+import { NewModels } from '../../components/NewModels/NewModels';
+import { ShopByCategory } from '../../components/ShopByCategory/ShopByCategory';
+import '../../styles/containers.scss';
+import './HomePage.scss';
+import { Title } from '../../types/Titel';
 export const HomePapge: React.FC = () => {
   return (
     <>

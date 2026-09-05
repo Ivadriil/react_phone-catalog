@@ -4,11 +4,7 @@
 .wrapper {
     @include phone {
         width: 100%;
-        margin: 0 8px;
-    }
-
-    @include tablet {
-        margin: 0 24px;
+        margin: 0;
     }
 
     @include desktop {
@@ -32,12 +28,17 @@
     @include phone {
         grid-column: 1 / -1;
 
-        &--item {
+    &--item {
             display: block;
             width: 52px;
             height: 49px;
             object-fit: contain;
         }
+    }
+
+    &--button {
+        display: block;
+        cursor: pointer;
     }
 
     @include tablet {
@@ -117,6 +118,7 @@
 
             &--item {
                 margin: 0;
+
                 &:first-child {
                     font-weight: 800;
                     font-size: 32px;
@@ -126,12 +128,7 @@
                 }
 
                 &:last-child {
-                    font-weight: 600;
-                    font-size: 22px;
-                    line-height: 100%;
-                    letter-spacing: 0%;
-                    text-decoration: line-through;
-                    align-content: center;
+                    @include typografy-important-information;
                 }
 
             }
@@ -152,6 +149,7 @@
                     height: 32px;
                     cursor: pointer;
                     border-radius: 50%;
+                    border: none;
                 }
             }
 
@@ -168,10 +166,7 @@
                     justify-content: center;
                     align-items: center;
                     border: 1px solid #323542;
-                    font-weight: 600;
-                    font-size: 14px;
-                    line-height: 21px;
-                    letter-spacing: 0%;
+                    @include typografy-important-information;
                     text-align: center;
                     text-transform: uppercase;
                 }
@@ -207,28 +202,35 @@
             &__button {
                 display: flex;
                 gap: 8px;
-                width: 320px;
+                width: min(320px, 100%);
                 height: 48px;
 
-                .item--button {
-                    width: 263px;
+                .card__info__button--item {
                     height: 48px;
-                    background-color: #905BFF;
-
-                }
-
-                .item--heart {
-                    height: 48px;
-                    width: 48px;
-                    background-color: #323542;
-                }
-
-                &--item {
                     align-items: center;
                     justify-content: center;
                     display: flex;
                     cursor: pointer;
+                    flex-shrink: 0;
+                    line-height: 1;
+                }
 
+                .item--button,
+                .item--Added {
+                    min-width: 0;
+                    flex: 1 1 auto;
+                    background-color: #905BFF;
+                }
+
+                .item--Added {
+                    background-color: #323542;
+                }
+
+                .item--BloodHeart {
+                    flex: 0 0 48px;
+                    width: 48px;
+                    background-color: #161827;
+                    border: 2px solid #323542;
                 }
             }
         }
@@ -291,10 +293,7 @@
                 display: flex;
                 width: 100%;
                 justify-content: space-between;
-                font-weight: 600;
-                font-size: 14px;
-                line-height: 21px;
-                letter-spacing: 0%;
+                @include typografy-important-information;
 
                 :first-child {
                     color: $bacround-color-gree-card;

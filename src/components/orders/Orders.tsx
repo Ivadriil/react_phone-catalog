@@ -1,20 +1,22 @@
 import { Link } from 'react-router-dom';
 import './Orders.scss';
 import close from '../../images/Close.png';
-import { useEffect, useState } from 'react';
-// import { Product } from "../../types/Product";
-// import { getOrders, removeOrders } from "../../utils/localStorage";
+import { useState } from 'react';
 import classNames from 'classnames';
 import { useOrders } from '../../context/OrdersContext';
+import { useProducts } from '../../context/ProductsContext';
 export const Orders: React.FC = () => {
-  const { orders, removeOrder } = useOrders();
+  const { orders, removeOrder, clearOrders } = useOrders();
+  const { products } = useProducts();
+  const orderedProducts = products.filter(product =>
+    orders.includes(product.itemId),
+  );
 
-  // const [orders, setorders] = useState<Product[]>(getOrders);
-  const [value, setValue] = useState<Record<number, number>>({});
+  const [value, setValue] = useState<Record<string, number>>({});
 
-  function onChange(id: number, count: number) {
+  function onChange(itemId: string, count: number) {
     setValue(prev => {
-      const currentValue = prev[id] ?? 1;
+      const currentValue = prev[itemId] ?? 1;
       const newValue = currentValue + count;
 
       if (newValue < 1 || newValue > 10) {
@@ -23,22 +25,31 @@ export const Orders: React.FC = () => {
 
       return {
         ...prev,
-        [id]: newValue,
+        [itemId]: newValue,
       };
     });
   }
 
-  function handleRemove(id: number) {
-    removeOrder(id);
+  function handleRemove(itemId: string) {
+    removeOrder(itemId);
   }
 
-  const totalPrice = orders.reduce((total, item) => {
-    const counts = value[item.id] ?? 1;
+  const totalPrice = orderedProducts.reduce((total, item) => {
+    const counts = value[item.itemId] ?? 1;
 
     return total + counts * item.price;
   }, 0);
 
-  useEffect(() => {}, [orders, value]);
+  function handleCheckout() {
+    const shouldPay = window.confirm(
+      `Pay $${totalPrice} for ${orderedProducts.length} item(s)?`,
+    );
+
+    if (shouldPay) {
+      clearOrders();
+      window.alert('Payment completed. Thank you for your order!');
+    }
+  }
 
   return (
     <div className="wrapper">
@@ -47,38 +58,47 @@ export const Orders: React.FC = () => {
         <h2 className="titel">Cart</h2>
         <div className="cart">
           <div className="cart__items">
-            {orders.map(item => {
-              const counts = value[item.id] ?? 1;
+            {orderedProducts.map(item => {
+              const counts = value[item.itemId] ?? 1;
               const itemPrice = counts * item.price;
 
               return (
                 <div key={item.id} className="Orders">
-                  <a
+                  <button
+                    type="button"
                     className="Orders--link"
-                    onClick={() => handleRemove(item.id)}
+                    onClick={() => handleRemove(item.itemId)}
                   >
-                    <img className="Orders--link--item" src={close} />
-                  </a>
+                    <img
+                      className="Orders--link--item"
+                      src={close}
+                      alt="Remove item"
+                    />
+                  </button>
                   <img className="Orders--img" src={item.image} alt="" />
                   <span className="Orders--name">{item.name}</span>
                   <div className="Orders__box">
-                    <a
-                      onClick={() => onChange(item.id, -1)}
+                    <button
+                      type="button"
+                      disabled={counts === 1}
+                      onClick={() => onChange(item.itemId, -1)}
                       className={classNames('Orders__box--button', {
                         isNotActive: counts === 1,
                       })}
                     >
                       -
-                    </a>
+                    </button>
                     <span className="Orders__box--item">{counts}</span>
-                    <a
-                      onClick={() => onChange(item.id, 1)}
+                    <button
+                      type="button"
+                      disabled={counts === 10}
+                      onClick={() => onChange(item.itemId, 1)}
                       className={classNames('Orders__box--button', {
                         isNotActive: counts === 10,
                       })}
                     >
                       +
-                    </a>
+                    </button>
                   </div>
                   <span className="Orders--price">${itemPrice}</span>
                 </div>
@@ -93,12 +113,16 @@ export const Orders: React.FC = () => {
                   {totalPrice}
                 </h3>
                 <span className="result__titel__text">
-                  Total for {orders.length} items
+                  Total for {orderedProducts.length} items
                 </span>
               </div>
               <span className="result__line"></span>
-              <button type="submit" className="result__button">
-                Checkout
+              <button
+                type="button"
+                className="result__button"
+                onClick={handleCheckout}
+              >
+                Pay ${totalPrice}
               </button>
             </div>
           ) : (

@@ -8,3 +8,41 @@ select option {
 select option:disabled {
     color: #999;
 }
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* Browser margin/padding defaults vary wildly across elements and vendors.
+   Start from zero - handle spacing intentionally via the design system. */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+  border: 0;
+  background: none;
+}
+
+html {
+    background-color: #0F1121;
+    color: #F1F2F9;
+  
+    gap: 0;
+}
+
+.offCalss {
+    display: none;
+}
+
+body {
+    gap: 0;
+}
+
+.App {
+    justify-items: center;
+}

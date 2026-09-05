@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { findProduct, models } from '../../utils/findProduct';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { Breadcrumbs } from '../../components/Breadcrumbs';
 import '../../styles/index.scss';
 import './PhoneDetailsPage.scss';
@@ -12,12 +11,17 @@ import { Title } from '../../types/Titel';
 import { colors } from '../../utils/colors';
 import { useFavorites } from '../../context/FavoritesContext';
 import { useOrders } from '../../context/OrdersContext';
+import { useProducts } from '../../context/ProductsContext';
+import type { ProductCategory } from '../../repositories/productRepository';
 export const PhoneDetailsPage: React.FC = () => {
-  const location = useLocation();
-  const parts = location.pathname.split('/').filter(Boolean);
-  const category = parts[0];
-  const productId = parts[1];
-  const product = findProduct(category as keyof typeof models, productId);
+  const { productId } = useParams();
+  const { pathname } = useLocation();
+  const category = pathname.split('/').filter(Boolean)[0] as ProductCategory;
+  const { details } = useProducts();
+  const product =
+    category && productId
+      ? details[category]?.find(item => item.id === productId)
+      : undefined;
   const navigate = useNavigate();
   const [firstPhoto, setFirstPhoto] = useState(product?.images[0]);
   const { favorites, addFavorite, removeFavorite } = useFavorites();
@@ -33,51 +37,48 @@ export const PhoneDetailsPage: React.FC = () => {
     return <h1>Product not found</h1>;
   }
 
-  function changeProduct(item: string) {
-    if (!product) {
+  const selectedProductId = product.id;
+
+  function changeProduct(property: 'color' | 'capacity', value: string) {
+    if (!product || !category) {
       return;
     }
 
-    if (product.color === item || product.capacity === item) {
-      return;
-    }
+    const matchingProduct = details[category].find(item => {
+      if (
+        item.namespaceId !== product.namespaceId ||
+        item[property] !== value
+      ) {
+        return false;
+      }
 
-    if (product.colorsAvailable.includes(item)) {
-      const idParts = product.id
-        .toLowerCase()
-        .split(product.color.toLowerCase());
+      return property === 'color'
+        ? item.capacity === product.capacity
+        : item.color === product.color;
+    });
 
-      const result = `${idParts[0]}${item}`.split(' ').join('-');
-
-      navigate(`/${category}/${result}`);
-    } else {
-      const idParts = product.id
-        .toLowerCase()
-        .split(product.capacity.toLowerCase());
-
-      const result = `${idParts[0]}${item}${idParts[1]}`.split(' ').join('-');
-
-      navigate(`/${category}/${result}`);
+    if (matchingProduct) {
+      navigate(`/${category}/${matchingProduct.id}`);
     }
   }
 
-  const isFavorite = favorites.some(item => item.itemId === product.id);
+  const isFavorite = favorites.includes(selectedProductId);
 
-  const isOrder = orders.some(item => item.itemId === product.id);
+  const isOrder = orders.includes(selectedProductId);
 
   function changeFavorite() {
     if (isFavorite) {
-      removeFavorite(product!.id);
+      removeFavorite(selectedProductId);
     } else {
-      addFavorite(product!.id);
+      addFavorite(selectedProductId);
     }
   }
 
   function changeOrders() {
     if (isOrder) {
-      removeOrder(product!.id);
+      removeOrder(selectedProductId);
     } else {
-      addOrder(product!.id);
+      addOrder(selectedProductId);
     }
   }
 
@@ -105,19 +106,25 @@ export const PhoneDetailsPage: React.FC = () => {
 
         <div className="product-photo">
           {product.images.map(photo => (
-            <img
-              className="product-photo--item"
+            <button
+              type="button"
+              className="product-photo--button"
               key={photo}
-              src={photo}
               onClick={() => setFirstPhoto(photo)}
-              alt="photo-Product"
-            />
+              aria-label={`Show product image ${product.images.indexOf(photo) + 1}`}
+            >
+              <img
+                className="product-photo--item"
+                src={`${import.meta.env.BASE_URL}${photo}`}
+                alt=""
+              />
+            </button>
           ))}
         </div>
         <div className="product-photo-first">
           <img
             className="product-photo-first--item"
-            src={firstPhoto}
+            src={firstPhoto && `${import.meta.env.BASE_URL}${firstPhoto}`}
             alt="Foto Product"
           />
         </div>
@@ -126,14 +133,16 @@ export const PhoneDetailsPage: React.FC = () => {
             <p className="product__box--text">Available colors</p>
             <div className="product__box__colors">
               {product.colorsAvailable.map(item => (
-                <div
+                <button
+                  type="button"
                   key={item}
                   className={classNames('product__box__colors--item', {
                     ActiveColor: product.color === item,
                   })}
                   style={{ backgroundColor: colors[item] }}
-                  onClick={() => changeProduct(item)}
-                ></div>
+                  onClick={() => changeProduct('color', item)}
+                  aria-label={`Select ${item} color`}
+                />
               ))}
             </div>
           </div>
@@ -142,15 +151,16 @@ export const PhoneDetailsPage: React.FC = () => {
             <p className="product__box--text">Select capacity</p>
             <div className="product__box__gb">
               {product.capacityAvailable.map(item => (
-                <div
+                <button
+                  type="button"
                   key={item}
                   className={classNames('product__box__gb--item', {
                     ActiveCapacity: product.capacity === item,
                   })}
-                  onClick={() => changeProduct(item.toLocaleLowerCase())}
+                  onClick={() => changeProduct('capacity', item)}
                 >
                   {slicing(item)}
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -163,21 +173,24 @@ export const PhoneDetailsPage: React.FC = () => {
           </div>
           <div className="product__info__button">
             {isOrder ? (
-              <span
+              <button
+                type="button"
                 className="card__info__button--item item--Added"
                 onClick={changeOrders}
               >
                 Added
-              </span>
+              </button>
             ) : (
-              <span
+              <button
+                type="button"
                 className="card__info__button--item item--button"
                 onClick={changeOrders}
               >
                 Add to cart
-              </span>
+              </button>
             )}
-            <span
+            <button
+              type="button"
               className="card__info__button--item item--BloodHeart"
               onClick={changeFavorite}
             >
@@ -186,7 +199,7 @@ export const PhoneDetailsPage: React.FC = () => {
                 src={isFavorite ? BloodHeart : heartImg}
                 alt="Remove from favorites"
               />
-            </span>
+            </button>
           </div>
           <div className="product__info">
             <div className="product__info--items">

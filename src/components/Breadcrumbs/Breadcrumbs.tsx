@@ -1,12 +1,23 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import house from '../../images/Home.png';
-import products from '../../../public/api/products.json';
 import './Breadcrumbs.scss';
 import classNames from 'classnames';
+import { useProducts } from '../../context/ProductsContext';
 export const Breadcrumbs: React.FC = () => {
   const { productId } = useParams();
+  const { pathname } = useLocation();
+  const { products } = useProducts();
   const product = products.find(item => item.itemId === productId);
+  const category = pathname.split('/').filter(Boolean)[0];
+  const categoryName: Record<string, string> = {
+    phones: 'Phones',
+    tablets: 'Tablets',
+    accessories: 'Accessories',
+    favorits: 'Favourites',
+    orders: 'Cart',
+  };
+  const title = categoryName[category] || 'Catalog';
 
   return (
     <>
@@ -18,9 +29,9 @@ export const Breadcrumbs: React.FC = () => {
 
         <Link
           className={classNames('breadcrumbs--link', { NotActive: product })}
-          to="/phones"
+          to={`/${category}`}
         >
-          Phones
+          {title}
         </Link>
         {product && <span className="breadcrumbs--Chevron"> {'>'} </span>}
 

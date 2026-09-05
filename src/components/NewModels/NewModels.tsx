@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import products from '../../../public/api/products.json';
-
 import './NewModels.scss';
 import { ProductCard } from '../ProductCard/index';
 import cn from 'classnames';
 import { Title } from '../../types/Titel';
-import '../../styles/titel.scss';
 import { Product } from '../../types/Product';
+import { useProducts } from '../../context/ProductsContext';
 type Props = {
   titel: Title;
 };
 export const NewModels: React.FC<Props> = ({ titel }) => {
+  const { products } = useProducts();
   let newProduct: Product[] = [];
 
   if (titel === Title.NewModels) {
@@ -60,35 +59,37 @@ export const NewModels: React.FC<Props> = ({ titel }) => {
   return (
     <>
       <div className="titel">
-        <h2 className="titel--text">{titel}</h2>
+        <h4 className="titel--text">{titel}</h4>
         <div className="titel__chevron">
           <div
             className={cn('titel__chevron--item ', {
               active: productCard !== 0,
             })}
           >
-            <a
+            <button
+              type="button"
               className={cn('titel__chevron--item--link ', {
                 disabled: productCard === 0,
               })}
               onClick={() => handlePageChange(-1)}
             >
               {'<'}
-            </a>
+            </button>
           </div>
           <div
             className={cn('titel__chevron--item ', {
               active: productCard !== newProduct.length - visibleCards,
             })}
           >
-            <a
+            <button
+              type="button"
               className={cn('titel__chevron--item--link ', {
                 disabled: productCard === newProduct.length - visibleCards,
               })}
               onClick={() => handlePageChange(1)}
             >
               {'>'}
-            </a>
+            </button>
           </div>
         </div>
       </div>

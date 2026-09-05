@@ -1,18 +1,22 @@
 @use '../../styles/index' as *;
 
 .titel {
-    // display: flex;
-    // justify-content: space-between;
-    // align-items: center;
-    // grid-column: span 24;
-    // width: 100%;
-
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    grid-column: 1 / -1;
+    width: 100%;
+    &--text{
+        @include typografy-titel-information;
+    }
     &__chevron {
         display: flex;
         justify-content: space-between;
         gap: 16px;
 
         &--item {
+            @include typografy-important-information;
             text-align: center;
             height: 32px;
             width: 32px;

@@ -35,9 +35,13 @@ export const Slider: React.FC = () => {
 
   return (
     <>
-      <a className="button" onClick={() => handlePageChange(-1)}>
+      <button
+        type="button"
+        className="button"
+        onClick={() => handlePageChange(-1)}
+      >
         {'<'}
-      </a>
+      </button>
       <div className="slider">
         <div
           style={{
@@ -50,9 +54,13 @@ export const Slider: React.FC = () => {
           ))}
         </div>
       </div>
-      <a className="button" onClick={() => handlePageChange(1)}>
+      <button
+        type="button"
+        className="button"
+        onClick={() => handlePageChange(1)}
+      >
         {'>'}
-      </a>
+      </button>
       <div className="sidebar">
         <button
           onClick={() => setImage(0)}
