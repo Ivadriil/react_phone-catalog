@@ -11,7 +11,10 @@ export type ProductCatalog = {
 let catalogPromise: Promise<ProductCatalog> | null = null;
 
 const fetchJson = async <T>(path: string): Promise<T> => {
-  const response = await fetch(`${import.meta.env.BASE_URL}${path}`);
+  const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const cleanPath = path.replace(/^\//, '');
+
+  const response = await fetch(`${baseUrl}/${cleanPath}`);
 
   if (!response.ok) {
     throw new Error(`Failed to load ${path}`);
@@ -36,6 +39,5 @@ export const getProductCatalog = (): Promise<ProductCatalog> => {
       },
     }));
   }
-
   return catalogPromise;
 };
