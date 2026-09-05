@@ -39,5 +39,6 @@ export const getProductCatalog = (): Promise<ProductCatalog> => {
       },
     }));
   }
+
   return catalogPromise;
 };

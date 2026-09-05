@@ -115,7 +115,7 @@ export const PhoneDetailsPage: React.FC = () => {
             >
               <img
                 className="product-photo--item"
-                src={`${import.meta.env.BASE_URL}${photo}`}
+                src={photo}
                 alt=""
               />
             </button>
@@ -124,7 +124,7 @@ export const PhoneDetailsPage: React.FC = () => {
         <div className="product-photo-first">
           <img
             className="product-photo-first--item"
-            src={firstPhoto && `${import.meta.env.BASE_URL}${firstPhoto}`}
+            src={firstPhoto}
             alt="Foto Product"
           />
         </div>
