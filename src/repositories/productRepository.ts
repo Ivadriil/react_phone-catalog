@@ -29,7 +29,11 @@ export const getProductCatalog = (): Promise<ProductCatalog> => {
       fetchJson<ProductDetails[]>('api/accessories.json'),
     ]).then(([products, phones, tablets, accessories]) => ({
       products,
-      details: { phones, tablets, accessories },
+      details: {
+        phones,
+        tablets,
+        accessories,
+      },
     }));
   }
 
