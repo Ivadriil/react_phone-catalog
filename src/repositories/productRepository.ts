@@ -11,7 +11,7 @@ export type ProductCatalog = {
 let catalogPromise: Promise<ProductCatalog> | null = null;
 
 const fetchJson = async <T>(path: string): Promise<T> => {
-  const response = await fetch(path);
+  const response = await fetch(`${import.meta.env.BASE_URL}${path}`);
 
   if (!response.ok) {
     throw new Error(`Failed to load ${path}`);
@@ -23,10 +23,10 @@ const fetchJson = async <T>(path: string): Promise<T> => {
 export const getProductCatalog = (): Promise<ProductCatalog> => {
   if (!catalogPromise) {
     catalogPromise = Promise.all([
-      fetchJson<Product[]>('/api/products.json'),
-      fetchJson<ProductDetails[]>('/api/phones.json'),
-      fetchJson<ProductDetails[]>('/api/tablets.json'),
-      fetchJson<ProductDetails[]>('/api/accessories.json'),
+      fetchJson<Product[]>('api/products.json'),
+      fetchJson<ProductDetails[]>('api/phones.json'),
+      fetchJson<ProductDetails[]>('api/tablets.json'),
+      fetchJson<ProductDetails[]>('api/accessories.json'),
     ]).then(([products, phones, tablets, accessories]) => ({
       products,
       details: { phones, tablets, accessories },

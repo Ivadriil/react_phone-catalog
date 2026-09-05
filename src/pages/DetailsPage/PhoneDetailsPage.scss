@@ -166,7 +166,9 @@
                     justify-content: center;
                     align-items: center;
                     border: 1px solid #323542;
+
                     @include typografy-important-information;
+
                     text-align: center;
                     text-transform: uppercase;
                 }
@@ -293,6 +295,7 @@
                 display: flex;
                 width: 100%;
                 justify-content: space-between;
+
                 @include typografy-important-information;
 
                 :first-child {
