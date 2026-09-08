@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
 import './Orders.scss';
 import close from '../../images/Close.png';
 import { useState } from 'react';
 import classNames from 'classnames';
 import { useOrders } from '../../context/OrdersContext';
 import { useProducts } from '../../context/ProductsContext';
+import { Breadcrumbs } from '../Breadcrumbs';
 export const Orders: React.FC = () => {
   const { orders, removeOrder, clearOrders } = useOrders();
   const { products } = useProducts();
@@ -40,6 +40,12 @@ export const Orders: React.FC = () => {
     return total + counts * item.price;
   }, 0);
 
+  const totalItems = orderedProducts.reduce((total, item) => {
+    const counts = value[item.itemId] ?? 1;
+
+    return total + counts;
+  }, 0);
+
   function handleCheckout() {
     const shouldPay = window.confirm(
       `Pay $${totalPrice} for ${orderedProducts.length} item(s)?`,
@@ -54,7 +60,7 @@ export const Orders: React.FC = () => {
   return (
     <div className="wrapper">
       <div className="container">
-        <Link to="">{'<'} back</Link>
+        <Breadcrumbs />
         <h2 className="titel">Cart</h2>
         <div className="cart">
           <div className="cart__items">
@@ -113,7 +119,7 @@ export const Orders: React.FC = () => {
                   {totalPrice}
                 </h3>
                 <span className="result__titel__text">
-                  Total for {orderedProducts.length} items
+                  Total for {totalItems} items
                 </span>
               </div>
               <span className="result__line"></span>

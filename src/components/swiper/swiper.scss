@@ -1,13 +1,5 @@
 @use '../../styles/index' as *;
 
-// .container2 {
-//   display: grid;
-//   grid-template-columns: repeat(24, 32px);
-//   gap: 16px;
-//   width: 1136px;
-//   height: 436px;
-//   margin-top: 50px;
-//   margin-bottom: 80px;
 
 @include phone {
   .button {
@@ -16,7 +8,7 @@
 
   .slider {
     background-color: $bacround-color-black;
-    grid-column: span 4;
+    grid-column: 1 / -1;
     height: 416px;
     overflow: hidden;
     width: 100%;

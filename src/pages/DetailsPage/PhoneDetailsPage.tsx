@@ -113,11 +113,7 @@ export const PhoneDetailsPage: React.FC = () => {
               onClick={() => setFirstPhoto(photo)}
               aria-label={`Show product image ${product.images.indexOf(photo) + 1}`}
             >
-              <img
-                className="product-photo--item"
-                src={photo}
-                alt=""
-              />
+              <img className="product-photo--item" src={photo} alt="" />
             </button>
           ))}
         </div>

@@ -20,8 +20,18 @@
 }
 
 .section {
-    margin-bottom: 50px;
-    justify-items: center;
+    @include phone {
+        margin-bottom: 50px;
+        justify-items: center;
+    }
+
+    @include tablet {
+        padding-inline: 24px;
+    }
+    
+    @include desktop {
+        padding-inline: 32px;
+    }
 }
 
 .margen-titel {
