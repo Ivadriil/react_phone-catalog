@@ -30,7 +30,7 @@ export const AppLayout = () => {
   }, [isOpen]);
 
   return (
-    <>
+    <div className="App">
       <header className="header">
         <div className="header__logo">
           <Link className="header__logo__link" to="/">
@@ -66,7 +66,7 @@ export const AppLayout = () => {
         <Navigations />
       </div>
 
-      <main>
+      <main className="App__main">
         <div>
           {loading ? <Loader /> : error ? <p>{error.message}</p> : <Outlet />}
         </div>
@@ -115,6 +115,6 @@ export const AppLayout = () => {
           </button>
         </div>
       </footer>
-    </>
+    </div>
   );
 };

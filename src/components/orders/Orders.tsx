@@ -1,33 +1,21 @@
 import './Orders.scss';
 import close from '../../images/Close.png';
-import { useState } from 'react';
 import classNames from 'classnames';
 import { useOrders } from '../../context/OrdersContext';
 import { useProducts } from '../../context/ProductsContext';
 import { Breadcrumbs } from '../Breadcrumbs';
 export const Orders: React.FC = () => {
-  const { orders, removeOrder, clearOrders } = useOrders();
+  const { orders, quantities, removeOrder, clearOrders, setQuantity } =
+    useOrders();
   const { products } = useProducts();
   const orderedProducts = products.filter(product =>
     orders.includes(product.itemId),
   );
 
-  const [value, setValue] = useState<Record<string, number>>({});
+  function onChange(itemId: string, delta: number) {
+    const current = quantities[itemId] ?? 1;
 
-  function onChange(itemId: string, count: number) {
-    setValue(prev => {
-      const currentValue = prev[itemId] ?? 1;
-      const newValue = currentValue + count;
-
-      if (newValue < 1 || newValue > 10) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        [itemId]: newValue,
-      };
-    });
+    setQuantity(itemId, current + delta);
   }
 
   function handleRemove(itemId: string) {
@@ -35,13 +23,13 @@ export const Orders: React.FC = () => {
   }
 
   const totalPrice = orderedProducts.reduce((total, item) => {
-    const counts = value[item.itemId] ?? 1;
+    const counts = quantities[item.itemId] ?? 1;
 
     return total + counts * item.price;
   }, 0);
 
   const totalItems = orderedProducts.reduce((total, item) => {
-    const counts = value[item.itemId] ?? 1;
+    const counts = quantities[item.itemId] ?? 1;
 
     return total + counts;
   }, 0);
@@ -65,7 +53,7 @@ export const Orders: React.FC = () => {
         <div className="cart">
           <div className="cart__items">
             {orderedProducts.map(item => {
-              const counts = value[item.itemId] ?? 1;
+              const counts = quantities[item.itemId] ?? 1;
               const itemPrice = counts * item.price;
 
               return (

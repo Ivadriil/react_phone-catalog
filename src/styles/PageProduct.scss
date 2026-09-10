@@ -1,5 +1,9 @@
 @use './index.scss' as *;
 
+.product-page{
+    justify-items: center;
+}
+
 @include phone {
     .sort-By {
         grid-column: span 2;
@@ -20,8 +24,6 @@
     .form {
         grid-column: span 2;
         height: 59px;
-
-       
     }
 }
 

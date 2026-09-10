@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import '../App.scss';
 import { Product } from '../types/Product';
 import { ProductTitle } from '../types/ProductTitel';
@@ -11,11 +12,15 @@ import classNames from 'classnames';
 import { WhatSorted } from '../types/WhatSorted';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useProducts } from '../context/ProductsContext';
+
 type Props = {
   titel: ProductTitle;
 };
+
 export const PageProduct: React.FC<Props> = ({ titel }) => {
   const { products: catalog } = useProducts();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const categoryByTitle: Record<ProductTitle, string> = {
     [ProductTitle.phone]: 'phones',
     [ProductTitle.tablet]: 'tablets',
@@ -23,19 +28,42 @@ export const PageProduct: React.FC<Props> = ({ titel }) => {
     [ProductTitle.favorits]: 'favorits',
     [ProductTitle.orders]: 'orders',
   };
+
   const products = catalog.filter(
     product => product.category === categoryByTitle[titel],
   );
-  const [perPage, setPerPage] = useState(Number('16'));
-  const [perSort, setPerSort] = useState(WhatSorted.Newest);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  // Читаємо значення з URL, з дефолтами, якщо параметра ще немає
+  const perPage = Number(searchParams.get('perPage')) || 16;
+  const perSort = (searchParams.get('sort') as WhatSorted) || WhatSorted.Newest;
+  const currentPage = Number(searchParams.get('page')) || 1;
+
   const pageCount = Math.ceil(products.length / perPage);
   const listItems = getNumbers(1, pageCount).map(n => n);
 
+  // Універсальна функція для оновлення одного параметра, зберігаючи інші
+  const updateParams = (updates: Record<string, string>) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    Object.entries(updates).forEach(([key, value]) => {
+      newParams.set(key, value);
+    });
+
+    setSearchParams(newParams);
+  };
+
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page >= 1 && page <= pageCount) {
-      setCurrentPage(page);
+      updateParams({ page: String(page) });
     }
+  };
+
+  const handleSortChange = (sort: WhatSorted) => {
+    updateParams({ sort, page: '1' }); // при зміні сортування скидаємо на 1 сторінку
+  };
+
+  const handlePerPageChange = (value: number) => {
+    updateParams({ perPage: String(value), page: '1' }); // так само скидаємо сторінку
   };
 
   const sortedProducts: Product[] = useMemo(() => {
@@ -45,15 +73,12 @@ export const PageProduct: React.FC<Props> = ({ titel }) => {
       case WhatSorted.Newest:
         result.sort((a, b) => b.year - a.year);
         break;
-
       case WhatSorted.Old:
         result.sort((a, b) => a.year - b.year);
         break;
-
       case WhatSorted.Cheaper:
         result.sort((a, b) => a.price - b.price);
         break;
-
       case WhatSorted.Expensive:
         result.sort((a, b) => b.price - a.price);
         break;
@@ -72,11 +97,10 @@ export const PageProduct: React.FC<Props> = ({ titel }) => {
   return (
     <>
       <h1 className="title offCalss">Home page</h1>
-      <div className="App">
+      <div className="product-page">
         <section className="section-titel">
           <div className="container">
             <Breadcrumbs />
-
             <h1 className="titel titelOf">Product Catalog</h1>
             <div className="titel box">
               <h2>{titel}</h2>
@@ -94,7 +118,7 @@ export const PageProduct: React.FC<Props> = ({ titel }) => {
               name="sort-By"
               id="sort-By"
               value={perSort}
-              onChange={e => setPerSort(e.target.value as WhatSorted)}
+              onChange={e => handleSortChange(e.target.value as WhatSorted)}
             >
               <option className="option" value={WhatSorted.Old}>
                 Old
@@ -118,10 +142,9 @@ export const PageProduct: React.FC<Props> = ({ titel }) => {
               data-cy="perPageSelector"
               id="perPageSelector"
               value={perPage}
-              onChange={event => {
-                setPerPage(Number(event.target.value));
-                setCurrentPage(1);
-              }}
+              onChange={event =>
+                handlePerPageChange(Number(event.target.value))
+              }
             >
               <option className="option" value="16">
                 16

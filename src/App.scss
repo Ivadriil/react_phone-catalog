@@ -1,5 +1,16 @@
 .App {
     justify-items: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    &__main {
+        flex: 1 0 auto;
+    }
+}
+
+.footer {
+  flex-shrink: 0;
 }
 
 @media (max-width: 640px) {

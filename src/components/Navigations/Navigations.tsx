@@ -8,9 +8,9 @@ import './Navigations.scss';
 export const Navigations: React.FC = () => {
   const { favorites } = useFavorites();
 
-  const { orders } = useOrders();
+  const { totalCount } = useOrders();
 
-  useEffect(() => {}, [favorites, orders]);
+  useEffect(() => {}, [favorites, totalCount]);
 
   return (
     <nav className="navigation burge-menu__navigation">
@@ -73,8 +73,8 @@ export const Navigations: React.FC = () => {
             alt="(Order)"
             className="shopping-bag__link--item"
           />
-          {orders.length > 0 && (
-            <div className="shopping-bag__link--count">{orders.length}</div>
+          {totalCount > 0 && (
+            <div className="shopping-bag__link--count">{totalCount}</div>
           )}
         </NavLink>
       </div>
