@@ -64,7 +64,9 @@ export const Navigations: React.FC = () => {
             className="shopping-bag__link--item"
           />
           {favorites.length > 0 && (
-            <div className="shopping-bag__link--count">{favorites.length}</div>
+            <div className="shopping-bag__link--count favorites-count">
+              {favorites.length}
+            </div>
           )}
         </NavLink>
         <NavLink className="shopping-bag__link" to="/orders">
@@ -74,7 +76,9 @@ export const Navigations: React.FC = () => {
             className="shopping-bag__link--item"
           />
           {totalCount > 0 && (
-            <div className="shopping-bag__link--count">{totalCount}</div>
+            <div className="shopping-bag__link--count orders-count">
+              {totalCount}
+            </div>
           )}
         </NavLink>
       </div>

@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
+import './styles/_reset.scss';
 import './App.scss';
 import './styles/main.scss';
 import './styles/footer.scss';
@@ -67,7 +68,7 @@ export const AppLayout = () => {
       </div>
 
       <main className="App__main">
-        <div>
+        <div className="wrapper">
           {loading ? <Loader /> : error ? <p>{error.message}</p> : <Outlet />}
         </div>
       </main>

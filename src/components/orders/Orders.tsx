@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useOrders } from '../../context/OrdersContext';
 import { useProducts } from '../../context/ProductsContext';
 import { Breadcrumbs } from '../Breadcrumbs';
+import { Link } from 'react-router-dom';
 export const Orders: React.FC = () => {
   const { orders, quantities, removeOrder, clearOrders, setQuantity } =
     useOrders();
@@ -58,20 +59,27 @@ export const Orders: React.FC = () => {
 
               return (
                 <div key={item.id} className="Orders">
-                  <button
-                    type="button"
-                    className="Orders--link"
-                    onClick={() => handleRemove(item.itemId)}
-                  >
-                    <img
-                      className="Orders--link--item"
-                      src={close}
-                      alt="Remove item"
-                    />
-                  </button>
-                  <img className="Orders--img" src={item.image} alt="" />
-                  <span className="Orders--name">{item.name}</span>
-                  <div className="Orders__box">
+                  <div className="Orders__box box-titel">
+                    <button
+                      type="button"
+                      className="Orders--link"
+                      onClick={() => handleRemove(item.itemId)}
+                    >
+                      <img
+                        className="Orders--link--item"
+                        src={close}
+                        alt="Remove item"
+                      />
+                    </button>
+                    <img className="Orders--img" src={item.image} alt="" />
+                    <Link
+                      to={`/${item.category}/${item.itemId}`}
+                      className="Orders__link"
+                    >
+                      <span className="Orders__link--name">{item.name}</span>
+                    </Link>
+                  </div>
+                  <div className="Orders__box box-app">
                     <button
                       type="button"
                       disabled={counts === 1}
@@ -93,8 +101,8 @@ export const Orders: React.FC = () => {
                     >
                       +
                     </button>
+                    <span className="Orders__box--price">${itemPrice}</span>
                   </div>
-                  <span className="Orders--price">${itemPrice}</span>
                 </div>
               );
             })}

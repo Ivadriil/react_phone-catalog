@@ -4,7 +4,6 @@ import type { Product } from '../../types/Product';
 import './ProductCard.scss';
 import { Title } from '../../types/Titel';
 import BloodHeart from '../../images/Union.png';
-// import { addFavorite, addOrders, getOrders, removeFavorite, removeOrders } from "../../utils/localStorage";
 import { useFavorites } from '../../context/FavoritesContext';
 import { useOrders } from '../../context/OrdersContext';
 type Props = {
