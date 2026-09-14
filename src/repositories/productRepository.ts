@@ -14,6 +14,7 @@ const fetchJson = async <T>(path: string): Promise<T> => {
   const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
   const cleanPath = path.replace(/^\//, '');
 
+  await new Promise(resolve => setTimeout(resolve, 2000));
   const response = await fetch(`${baseUrl}/${cleanPath}`);
 
   if (!response.ok) {
