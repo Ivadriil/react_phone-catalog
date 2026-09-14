@@ -32,6 +32,11 @@ export const PhoneDetailsPage: React.FC = () => {
     if (product) {
       setFirstPhoto(product?.images[0]);
     }
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }, [product]);
   if (!product) {
     return <h1>Product not found</h1>;
